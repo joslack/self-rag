@@ -3,24 +3,12 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "80:80"
-    develop:
-      watch:
-        - path: ./frontend
-          action: sync
-          target: /frontend
-          ignore:
-            - node_modules/
-        - action: rebuild
-          path: package.json
+      - "8000:80"
+    volumes:
+      - ./frontend/index.html:/frontend/index.html
   backend:
     build: ./backend
     ports:
       - "5001:5001"
-    develop:
-      watch:
-        - path: ./backend
-          action: sync
-          target: /backend
-        - action: rebuild
-          path: requirements.txt
+    volumes:
+      - ./backend/app.py:/backend/app.py
