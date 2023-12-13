@@ -1,0 +1,26 @@
+version: '3'
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    develop:
+      watch:
+        - path: ./frontend
+          action: sync
+          target: /frontend
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
+  backend:
+    build: ./backend
+    ports:
+      - "5001:5001"
+    develop:
+      watch:
+        - path: ./backend
+          action: sync
+          target: /backend
+        - action: rebuild
+          path: requirements.txt

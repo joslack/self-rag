@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <form id="queryForm">
+        <label for="query">Query:</label><br>
+        <input type="text" id="query" name="query" required><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <div id="results"></div>
+
+        <script>
+            window.onload = function() {
+                document.getElementById('queryForm').onsubmit = function(e) {
+                    e.preventDefault();
+                    console.log('Submitting query...')
+                    // Input validation
+                    var queryInput = document.getElementById('query');
+                    if (queryInput.value.trim() === '') {
+                        alert('Please enter a query.');
+                        return;
+                    }
+                    fetch('http://172.20.0.2:5000/query', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        mode: 'cors', // Set mode to 'cors'
+                        body: JSON.stringify({
+                            query: queryInput.value,
+                        }),
+                    })
+                    .then(response => console.log(response.json()))
+                    .then(data => {
+                        document.getElementById('results').innerText = data.result;
+                    });
+                };
+                console.log("Hello")
+            };
+        </script>
+    </body>
+    </html>
